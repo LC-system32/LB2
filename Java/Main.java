@@ -5,14 +5,15 @@ public class Main {
         Mass mass = new Mass(size);
 
         int segmentSize = size / numThreads;
+
         MinCollector collector = new MinCollector(numThreads);
-        Searching[] threads = new Searching[numThreads];
 
         for (int i = 0; i < numThreads; i++) {
             int start = i * segmentSize;
             int end = (i == numThreads - 1) ? size - 1 : (start + segmentSize - 1);
-            threads[i] = new Searching(start, end, mass, collector);
-            threads[i].start();
+
+            Searching threads = new Searching(start, end, mass, collector);
+            threads.start();
         }
 
         int[] result = collector.getResult();
